@@ -525,13 +525,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1838724311}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4226b9507b53b3849ac436d501f9e2b6, type: 3}
+  m_Script: {fileID: 11500000, guid: 692f16fbb5192f740ac84cccfb4bade4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
-  jumpPower: 2
   dashSpeed: 500
-  jumpCount: 2
 --- !u!4 &2397498607961954083
 Transform:
   m_ObjectHideFlags: 0

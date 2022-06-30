@@ -9,9 +9,14 @@ public class YJ_PlayerMove : MonoBehaviour
     public float dashSpeed = 10;
     public int jumpCount = 2;
     bool grounded = false;
+    bool time = false;
+    int wDashCount = 0;
+    float dashTime = 0;
     float yVelocity;
     float gravity = -9.81f;
     Vector3 dir = Vector3.zero;
+    Vector3 playerPosition;
+    Vector3 targetPosition;
     CharacterController cc;
 
 
@@ -68,33 +73,47 @@ public class YJ_PlayerMove : MonoBehaviour
         // 빠르게 방향키를 누르면 속도가 두배로 잠깐 빨라지고 원래대로 돌아옴
         if (Input.GetKeyDown(KeyCode.W))
         {
-            print("p");
-            // 만약 방향키를 2초 안에 또 누르면
-            float dashTime = 0;             
+            wDashCount++;
+            print(wDashCount);
+        }
+
+        if (wDashCount >= 2)
+        {
             dashTime += Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.W) && dashTime<2)
+
+            if (dashTime < 0.1)
             {
-                print("pp");
-                // Dash 함수를 불러온다
-                Dash();                
-                dashTime = 0;                
+                time = true;
+                StartCoroutine("Dash");
+            }
+
+            else if (dashTime > 0.1)
+            {
+                wDashCount = 0;
+                dashTime = 0;
             }
         }
 
-        void Dash()
-        {
-            // 2. 속도가 두배로 빨라짐
-            // 3. 약 10초 후 원래대로 돌아오기 (테스트)
-            cc.Move(dir * dashSpeed * Time.deltaTime);
-            float dashTime = 0;
-            dashTime += Time.deltaTime;
-
-            if (dashTime > 10)
-            {
-                cc.Move(dir * speed * Time.deltaTime);
-                dashTime = 0;
-            }               
-        }
     }
+        IEnumerator Dash()
+        {
+            while (true)
+            {
+                if (time == true)
+                {
+                    playerPosition = transform.position;
+                    targetPosition = playerPosition + new Vector3(0, 0, 10);
+
+                    transform.position = Vector3.MoveTowards(transform.position, targetPosition, dashSpeed * Time.deltaTime);
+
+                    time = false;
+                    yield return null;
+                }
+                else
+                {
+                    yield break;
+                }
+            }
+        }
 }
 
