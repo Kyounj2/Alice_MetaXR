@@ -11,13 +11,14 @@ public class YJ_GameraMove : MonoBehaviour
     public float distance = 25;
     float x;
     float y;
-    bool position2 = true;
     int positionCount = 0;
+
+
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
@@ -34,11 +35,14 @@ public class YJ_GameraMove : MonoBehaviour
         if(positionCount > 0)
         {
             Fire2Position();
+            YJ_PlayerMove.Instance.Turn2();
+            YJ_PlayerFire.Instance.Fire();
 
-            if(positionCount > 1)
+            if (positionCount > 1)
             {
                 CameraRotate();
                 positionCount = 0;
+                YJ_PlayerMove.Instance.turn2 = false;
             }
         }
 
@@ -73,6 +77,6 @@ public class YJ_GameraMove : MonoBehaviour
         // 카메라와 플레이어의 거리조정
         Vector3 reDistance = new Vector3(-10, -5, 15);
         transform.position = player.transform.position - transform.rotation * reDistance;
-        Debug.Log("ddd");
+
     }
 }

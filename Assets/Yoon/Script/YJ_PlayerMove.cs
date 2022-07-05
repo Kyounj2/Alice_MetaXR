@@ -27,10 +27,16 @@ public class YJ_PlayerMove : MonoBehaviour
     Vector3 conDirAngle;
     Vector3 camPivotAngle;
     public bool UseCameraRotation = true;
+    public bool turn2 = false;
     CharacterController cc;
     private Camera currentCamera;
+    public static YJ_PlayerMove Instance = null;
 
 
+    private void Awake()
+    {
+        Instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -47,8 +53,11 @@ public class YJ_PlayerMove : MonoBehaviour
     {
         // 기본이동
         Move();
-        // 방향에 따른 시선처리
-        Turn();
+        if(turn2==false)
+        {
+            // 방향에 따른 시선처리
+            Turn();
+        }
         // 점프
         Jump();
 
@@ -127,11 +136,11 @@ public class YJ_PlayerMove : MonoBehaviour
         dir.Normalize();
 
 
-        if (Input.GetButton("Fire2"))
+        /*if (Input.GetButton("Fire2"))
         {
             //카메라가?보고있는?방향을?앞?방향으로?변경한다.
             dir = Camera.main.transform.TransformDirection(dir);
-        }
+        }*/
 
 
         //카메라 방향으로 돌려준다.
@@ -146,10 +155,17 @@ public class YJ_PlayerMove : MonoBehaviour
 
     }
 
+    // 플레이어 무브에서 우클릭하면 데려갈거
     void Turn()
     {
         // 움직이는 방향 바라보기
         transform.LookAt(transform.position + dir);
+    }
+    public void Turn2()
+    {
+        turn2 = true;
+        transform.LookAt(transform.position + Camera.main.transform.forward);
+
     }
     void Jump()
     {
